@@ -1,0 +1,5 @@
+---
+- name: install and configure dnsmasq
+  hosts: servers
+  roles: 
+    - dnsmasq

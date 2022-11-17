@@ -1,0 +1,30 @@
+---
+# tasks file for dnsmasq
+- name: install dnsmasq
+  apt:
+    name: 
+      - dnsmasq
+      - firewalld
+    state: present
+- name: config file
+  template:
+    src: templates/conf.j2
+    dest: /etc/dnsmasq.conf
+- name: stop systemd-resolved
+  service: 
+    name: systemd-resolved
+    state: stopped 
+- name: start the service
+  service: 
+    name: "{{ item }}"
+    state: started
+    enabled: yes
+  loop:
+    - dnsmasq
+    - firewalld
+- name: open port
+  firewalld:
+    service: dns
+    state: enabled
+    permanent: yes
+  notify: restart_dnsmasq
