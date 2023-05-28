@@ -1,0 +1,23 @@
+---
+- name: configure sudo
+  hosts: node1
+  vars_files:
+    - vars/addgroups
+    - vars/addusers
+  tasks:
+  - name: add groups
+    group:
+      name: "{{ item.name }}"
+      gid: "{{ item.groupid }}"
+    loop: "{{ addgroups }}"
+  - name: add users
+    user:
+      name: "{{ item.username }}"
+      groups: "{{ item.groups }}"
+    loop: "{{ addusers }}"
+  - name: allow group members in sudo
+    template:
+      src: templates/sudo_group.j2
+      dest: /etc/sudoers.d/superusers
+      validate: 'visudo -cf %s'
+      mode: 0440

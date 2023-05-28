@@ -1,0 +1,5 @@
+addusers:
+    - username: user1
+      groups: superusers
+    - username: user2
+      groups: superusers

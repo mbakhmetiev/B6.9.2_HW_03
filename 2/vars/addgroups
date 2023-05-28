@@ -1,0 +1,4 @@
+addgroups:
+    - name: superusers
+      groupid: 5000
+      sudo: true
